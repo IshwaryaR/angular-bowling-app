@@ -1,8 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col md-6 offset-md-3">
-      <h2>Let's play the game!</h2>
-      <h4>Frame {{ (posts | async)?.length }}</h4>
+      <h4>Frame {{ framecount }}</h4>
       <form [formGroup]="scoreBoard" (ngSubmit)="updateScore()">
         <div class="form-group">
           <label for="firstroll">Roll 1</label><br />
@@ -108,12 +107,19 @@
           Total should be between 0 and 10
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="(posts | async)?.length === 10"
+        >
+          Submit
+        </button>
+        <!--   <pre></pre> -->
+        &nbsp;
+        <button type="button" class="btn btn-secondary" (click)="onReset()">
+          Reset Game
+        </button>
       </form>
-      &nbsp;
-      <button type="submit" class="btn btn-secondary" (click)="onReset()">
-        New Game
-      </button>
     </div>
   </div>
 </div>

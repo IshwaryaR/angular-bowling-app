@@ -7,6 +7,8 @@ import { addFrameRoll, resetFrameRoll } from '../state/roll.actions';
 import { Observable } from 'rxjs';
 import { getFrames } from '../state/roll.selector';
 import { AppState } from 'src/app/app.state';
+import { addFrameCount, resetFrameCount } from '../state/framecount.actions';
+import { addTotalScore, resetTotalScore } from '../state/totalscore.actions';
 
 @Component({
   selector: 'app-game-roll',
@@ -16,10 +18,8 @@ import { AppState } from 'src/app/app.state';
 export class GameRollComponent implements OnInit {
   posts: Observable<Posts[]> | undefined;
   scoreBoard!: FormGroup;
-  /* inputScores: any = {
-    posts: [],
-  }; */
-  inputMessage: any;
+  framecount: number | undefined;
+  // inputMessage: any;
   submitted = false;
   constructor(
     private _formBuilder: FormBuilder,
@@ -27,24 +27,23 @@ export class GameRollComponent implements OnInit {
     private store: Store<AppState>
   ) {}
 
-  formValidationCheck(fg: FormGroup) {
-    const firstroll = fg.get('firstroll')?.value;
-    const secondroll = fg.get('secondroll')?.value;
+  formValidationCheck(scoreBoard: FormGroup) {
+    const firstroll = scoreBoard.get('firstroll')?.value;
+    const secondroll = scoreBoard.get('secondroll')?.value;
+    const thirdroll = scoreBoard.get('thirdroll')?.value;
     if (firstroll !== 10 && !secondroll) {
       return { secondrollrequired: true };
     }
-    if (firstroll + secondroll <= 10) {
-      return null;
+    if (firstroll + secondroll > 10 && !thirdroll) {
+      return { range: true };
     }
-    return { range: true };
+    return null;
   }
 
   onReset() {
-    const frame: Posts = {
-      firstroll: 0,
-      secondroll: 0,
-    };
-    this.store.dispatch(resetFrameRoll({ frame }));
+    this.store.dispatch(resetFrameRoll());
+    this.store.dispatch(resetFrameCount());
+    this.store.dispatch(resetTotalScore());
     this.scoreBoard.reset();
     this.submitted = false;
   }
@@ -53,12 +52,6 @@ export class GameRollComponent implements OnInit {
     if (this.scoreBoard.invalid) {
       return;
     }
-    const frame: Posts = {
-      firstroll: this.scoreBoard.value.firstroll,
-      secondroll: this.scoreBoard.value.secondroll,
-    };
-    this.store.dispatch(addFrameRoll({ frame }));
-
     /** Get data from service compoent using BehaviorSubject */
     /* let frameId = {
       id: 'Frame ' + (this.inputScores.posts.length + 1),
@@ -73,22 +66,34 @@ export class GameRollComponent implements OnInit {
     this.scoreBoard.value.secondroll && this.scoreBoard.value.secondroll !== ''
       ? this._myService.roll(this.scoreBoard.value.secondroll)
       : null;
-    this._myService.score();
+    this.scoreBoard.value.thirdroll && this.scoreBoard.value.thirdroll !== ''
+      ? this._myService.roll(this.scoreBoard.value.thirdroll)
+      : null;
+    const value = this._myService.score();
+    const frame: Posts = {
+      firstroll: this.scoreBoard.value.firstroll,
+      secondroll: this.scoreBoard.value.secondroll,
+      thirdroll: this.scoreBoard.value.thirdroll,
+      score: value,
+    };
+    this.store.dispatch(addFrameRoll({ frame }));
+    this.store.dispatch(addFrameCount());
+    this.store.dispatch(addTotalScore({ totalscore: value }));
     this.scoreBoard.reset();
     this.submitted = false;
   }
+
   getFrameScore() {
     return JSON.stringify(this._myService.getFrameScore());
   }
-  validatorForSecondRoll(scoreBoard: any) {
-    debugger;
-    // return user.role === x ? Validators.required : Validators.nullValidator;
-  }
+
   ngOnInit() {
     /** Get data from service compoent using BehaviorSubject */
     // this._myService.bowlingData.subscribe((data) => (this.inputMessage = data));
     this.posts = this.store.select(getFrames);
-
+    this.store
+      .select('framecount')
+      .subscribe((data) => (this.framecount = data.framecount));
     this.scoreBoard = this._formBuilder.group(
       {
         firstroll: [

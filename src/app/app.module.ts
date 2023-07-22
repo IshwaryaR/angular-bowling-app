@@ -14,6 +14,8 @@ import { GameScoreComponent } from './page-content/game-score/game-score.compone
 import { StoreModule } from '@ngrx/store';
 import { rollReducer } from './page-content/state/roll.reducer';
 import { MatDialogModule } from '@angular/material/dialog';
+import { counterReducer } from './page-content/state/framecount.reducer';
+import { scoreReducer } from './page-content/state/totalscore.reducer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +31,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({ posts: rollReducer }),
+    StoreModule.forRoot({
+      posts: rollReducer,
+      framecount: counterReducer,
+      totalscore: scoreReducer,
+    }),
     MatDialogModule,
   ],
   providers: [PinBowlService],

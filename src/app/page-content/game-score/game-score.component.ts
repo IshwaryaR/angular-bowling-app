@@ -14,21 +14,19 @@ import { MatDialog } from '@angular/material/dialog';
 export class GameScoreComponent implements OnInit {
   posts: Observable<Posts[]> | undefined;
   numbers: any[];
-  inputMessage: any;
+  // inputMessage: any;
   scoreData: any;
   constructor(
     private _myService: PinBowlService,
-    private store: Store<AppState>,
-    private dialog: MatDialog
+    private store: Store<AppState> // private dialog: MatDialog
   ) {
     this.numbers = Array(10).fill(0);
   }
-  openDialogWithTemplateRef(templateRef: TemplateRef<any>) {
-    this.dialog.open(templateRef);
-  }
+
   getScore() {
     return JSON.stringify(this._myService.getFrameScore());
   }
+
   ngOnInit() {
     /** Get data from service compoent using BehaviorSubject */
     /* this._myService.bowlingData.subscribe((data) => {

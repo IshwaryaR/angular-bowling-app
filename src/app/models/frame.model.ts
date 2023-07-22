@@ -3,7 +3,16 @@ export interface Posts {
   firstroll: number;
   secondroll: number;
   thirdroll?: number;
+  score: number;
 }
 export interface PostsState {
   posts: Posts[];
+}
+
+export interface FrameState {
+  framecount: number;
+}
+
+export interface ScoreState {
+  totalscore: number;
 }

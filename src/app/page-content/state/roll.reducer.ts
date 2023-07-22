@@ -14,10 +14,7 @@ const _postReducer = createReducer(
     let posts = [...state.posts, frameResult];
     return { posts };
   }),
-  on(resetFrameRoll, (state, action) => {
-    /*  let frameResult = { ...action.frame };
-    frameResult.id = 'Frame ' + (state.posts.length + 1);
-    let posts = [...state.posts, frameResult]; */
+  on(resetFrameRoll, () => {
     return { ...initialState };
   })
 );

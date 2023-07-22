@@ -31,7 +31,7 @@
       </tr>
       <tr>
         <th scope="row">Score</th>
-        <td *ngFor="let number of scoreData">{{ number ? number : "" }}</td>
+        <td *ngFor="let post of posts | async">{{ post ? post.score : "" }}</td>
       </tr>
     </tbody>
   </table>
