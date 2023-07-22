@@ -1,4 +1,4 @@
-import { createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 import { PostsState } from 'src/app/models/frame.model';
 import { addFrameRoll, resetFrameRoll } from './roll.actions';
 
@@ -19,6 +19,6 @@ const _postReducer = createReducer(
   })
 );
 
-export function rollReducer(state: any, action: any) {
+export function rollReducer(state: any, action: Action) {
   return _postReducer(state, action);
 }

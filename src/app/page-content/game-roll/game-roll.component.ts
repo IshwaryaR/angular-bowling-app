@@ -18,34 +18,19 @@ import { PopUpComponent } from '../pop-up/pop-up.component';
   styleUrls: ['./game-roll.component.sass'],
 })
 export class GameRollComponent implements OnInit {
+  /** Declarations */
   posts: Observable<Posts[]> | undefined;
   scoreBoard!: FormGroup;
   framecount: number | undefined;
-  // inputMessage: any;
   submitted = false;
   totalscore: number | undefined;
+
   constructor(
     private _formBuilder: FormBuilder,
     private _myService: PinBowlService,
     private store: Store<AppState>,
     public dialog: MatDialog
   ) {}
-
-  formValidationCheck(scoreBoard: FormGroup) {
-    const firstroll = scoreBoard.get('firstroll')?.value;
-    const secondroll = scoreBoard.get('secondroll')?.value;
-    const thirdroll = scoreBoard.get('thirdroll')?.value;
-    if (
-      firstroll !== 10 &&
-      (secondroll === null || secondroll === undefined || secondroll === '')
-    ) {
-      return { secondrollrequired: true };
-    }
-    if (firstroll + secondroll > 10 && !thirdroll) {
-      return { range: true };
-    }
-    return null;
-  }
 
   onReset() {
     this.store.dispatch(resetFrameRoll());
@@ -54,45 +39,42 @@ export class GameRollComponent implements OnInit {
     this.scoreBoard.reset();
     this.submitted = false;
   }
-  updateScore() {
-    this.submitted = true;
-    if (this.scoreBoard.invalid) {
-      return;
-    }
-    /** Get data from service compoent using BehaviorSubject */
-    /* let frameId = {
-      id: 'Frame ' + (this.inputScores.posts.length + 1),
-    };
-    this.inputScores.posts.push({
-      ...this.scoreBoard.value,
-      frameId: frameId.id,
-    });
-    this._myService.updateBowlingData(JSON.stringify(this.inputScores.posts)); */
 
-    this._myService.roll(this.scoreBoard.value.firstroll);
-    this.scoreBoard.value.secondroll !== null &&
-    this.scoreBoard.value.secondroll !== undefined &&
-    this.scoreBoard.value.secondroll !== ''
-      ? this._myService.roll(this.scoreBoard.value.secondroll)
+  rollAction() {
+    const scoreBoardValues = this.scoreBoard.value;
+    this._myService.roll(scoreBoardValues.firstroll);
+    scoreBoardValues.secondroll !== null &&
+    scoreBoardValues.secondroll !== undefined &&
+    scoreBoardValues.secondroll !== ''
+      ? this._myService.roll(scoreBoardValues.secondroll)
       : null;
-    this.scoreBoard.value.thirdroll !== null &&
-    this.scoreBoard.value.thirdroll !== undefined &&
-    this.scoreBoard.value.thirdroll !== ''
-      ? this._myService.roll(this.scoreBoard.value.thirdroll)
+    scoreBoardValues.thirdroll !== null &&
+    scoreBoardValues.thirdroll !== undefined &&
+    scoreBoardValues.thirdroll !== ''
+      ? this._myService.roll(scoreBoardValues.thirdroll)
       : null;
-    const value = this._myService.score();
+  }
+  formSubmit() {
+    this.submitted = true;
+    if (this.scoreBoard.invalid) return;
+    this.rollAction();
+
+    const currentScore = this._myService.score();
     const frame: Posts = {
       firstroll: this.scoreBoard.value.firstroll,
       secondroll: this.scoreBoard.value.secondroll,
       thirdroll: this.scoreBoard.value.thirdroll,
-      score: value,
+      score: currentScore,
     };
+
     this.store.dispatch(addFrameRoll({ frame }));
     this.store.dispatch(addFrameCount());
-    this.store.dispatch(addTotalScore({ totalscore: value }));
+    this.store.dispatch(addTotalScore({ totalscore: currentScore }));
+
     this.scoreBoard.reset();
     this.submitted = false;
     if (this.framecount && this.framecount > 10) {
+      //open the popup on last frame
       this.openDialog();
     }
   }
@@ -114,13 +96,23 @@ export class GameRollComponent implements OnInit {
     });
   }
 
-  getFrameScore() {
-    return JSON.stringify(this._myService.getFrameScore());
+  formValidationCheck(scoreBoard: FormGroup) {
+    const firstroll = scoreBoard.get('firstroll')?.value;
+    const secondroll = scoreBoard.get('secondroll')?.value;
+    const thirdroll = scoreBoard.get('thirdroll')?.value;
+    if (
+      firstroll !== 10 &&
+      (secondroll === null || secondroll === undefined || secondroll === '')
+    ) {
+      return { secondrollrequired: true };
+    }
+    if (firstroll + secondroll > 10 && !thirdroll) {
+      return { range: true };
+    }
+    return null;
   }
 
   ngOnInit() {
-    /** Get data from service compoent using BehaviorSubject */
-    // this._myService.bowlingData.subscribe((data) => (this.inputMessage = data));
     this.posts = this.store.select(getFrames);
     this.store
       .select('totalscore')

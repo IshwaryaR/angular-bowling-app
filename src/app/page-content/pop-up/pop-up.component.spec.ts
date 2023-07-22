@@ -25,6 +25,15 @@ describe('PopUpComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should render footer', () => {
+    const fixture = TestBed.createComponent(PopUpComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(
+      compiled.querySelector('.confirm-container h1')?.textContent
+    ).toContain('Game Over! Well done!');
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

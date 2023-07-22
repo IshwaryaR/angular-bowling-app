@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col md-6 offset-md-3">
       <h4>Frame {{ framecount }}</h4>
-      <form [formGroup]="scoreBoard" (ngSubmit)="updateScore()">
+      <form [formGroup]="scoreBoard" (ngSubmit)="formSubmit()">
         <div class="form-group">
           <label for="firstroll">Roll 1</label><br />
           <input
@@ -115,7 +115,6 @@
         >
           Submit
         </button>
-        <!--   <pre></pre> -->
         &nbsp;
         <button type="button" class="btn btn-secondary" (click)="onReset()">
           Reset Game
@@ -124,6 +123,3 @@
     </div>
   </div>
 </div>
-<pre></pre>
-<pre></pre>
-<pre></pre>
