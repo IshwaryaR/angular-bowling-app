@@ -80,7 +80,7 @@
           class="form-group"
           *ngIf="
             framecount &&
-            framecount >= 9 &&
+            framecount > 9 &&
             (scoreBoard.controls['firstroll'].value == 10 ||
               scoreBoard.controls['firstroll'].value +
                 scoreBoard.controls['secondroll'].value >=
