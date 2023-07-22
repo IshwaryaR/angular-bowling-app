@@ -1,0 +1,35 @@
+<div class="container px-4 px-lg-5 page-content">
+  <!-- Heading Row-->
+  <!-- Call to Action-->
+  <div class="card text-white bg-secondary my-5 py-4 text-center">
+    <div class="card-body">
+      <h2>
+        <p class="text-white m-0">Your Score : {{ getTotalScore() }}</p>
+      </h2>
+    </div>
+  </div>
+
+  <div class="row gx-4 gx-lg-5 align-items-center my-5">
+    <div class="col-lg-5">
+      <img
+        class="img-fluid rounded mb-4 mb-lg-0"
+        src="../../assets/bowling_pins.jpg"
+        alt="..."
+      />
+    </div>
+    <div class="col-lg-5">
+      <app-game-roll></app-game-roll>
+    </div>
+  </div>
+
+  <!-- Content Row-->
+  <div class="row gx-4 gx-lg-5">
+    <div class="col mb-5">
+      <div class="card h-100">
+        <div class="card-body">
+          <app-game-score></app-game-score>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

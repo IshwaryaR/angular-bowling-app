@@ -1,0 +1,122 @@
+<div class="container">
+  <div class="row">
+    <div class="col md-6 offset-md-3">
+      <h2>Let's play the game!</h2>
+      <h4>Frame {{ (posts | async)?.length }}</h4>
+      <form [formGroup]="scoreBoard" (ngSubmit)="updateScore()">
+        <div class="form-group">
+          <label for="firstroll">Roll 1</label><br />
+          <input
+            formControlName="firstroll"
+            [ngClass]="{
+              'is-invalid': submitted && scoreBoard.controls['firstroll'].errors
+            }"
+            ngModel
+            type="number"
+            class="form-control"
+            name="firstroll"
+            autocomplete="off"
+            placeholder="Enter First Roll"
+          />
+          <div
+            *ngIf="submitted && scoreBoard.controls['firstroll'].errors"
+            class="text-danger"
+          >
+            <div *ngIf="scoreBoard.controls['firstroll'].errors['required']">
+              First Roll is required
+            </div>
+            <div *ngIf="scoreBoard.controls['firstroll'].errors['min']">
+              First Roll must be greater than 0
+            </div>
+            <div *ngIf="scoreBoard.controls['firstroll'].errors['max']">
+              First Roll must be less than 10
+            </div>
+          </div>
+        </div>
+        <pre></pre>
+        <div class="form-group">
+          <fieldset
+            [disabled]="
+              scoreBoard.controls['firstroll'].value == 10 &&
+              (posts | async)?.length !== 9
+            "
+          >
+            <label for="secondroll">Roll 2</label><br />
+            <input
+              autocomplete="off"
+              formControlName="secondroll"
+              [ngClass]="{
+                'is-invalid':
+                  submitted && scoreBoard.controls['secondroll'].errors
+              }"
+              ngModel
+              type="number"
+              class="form-control"
+              name="secondroll"
+              placeholder="Enter Second Roll"
+            />
+          </fieldset>
+          <div
+            *ngIf="submitted && (scoreBoard.controls['secondroll'].errors || scoreBoard.errors?.['secondrollrequired'])"
+            class="text-danger"
+          >
+            <div *ngIf="scoreBoard.errors?.['secondrollrequired']">
+              Second Roll is required
+            </div>
+            <div
+              *ngIf="scoreBoard.controls?.['secondroll']?.errors?.['required']"
+            >
+              Second Roll is required
+            </div>
+            <div *ngIf="scoreBoard.controls?.['secondroll']?.errors?.['min']">
+              Second Roll must be greater than 0
+            </div>
+            <div *ngIf="scoreBoard.controls?.['secondroll']?.errors?.['max']">
+              Second Roll must be less than 10
+            </div>
+          </div>
+        </div>
+        <pre></pre>
+        <div
+          class="form-group"
+          *ngIf="
+            (posts | async)?.length == 9 &&
+            (scoreBoard.controls['firstroll'].value == 10 ||
+              scoreBoard.controls['firstroll'].value +
+                scoreBoard.controls['secondroll'].value ==
+                10)
+          "
+        >
+          <label for="thirdroll">Roll 3</label><br />
+          <input
+            autocomplete="off"
+            formControlName="thirdroll"
+            ngModel
+            type="number"
+            class="form-control"
+            name="thirdroll"
+            placeholder="Enter Third Roll"
+            value="0"
+          />
+        </div>
+
+        <pre></pre>
+        <div
+          *ngIf="submitted && scoreBoard.errors?.['range'] && !scoreBoard.controls['firstroll'].errors && !scoreBoard.controls['secondroll'].errors"
+          class="text-danger"
+        >
+          Total should be between 0 and 10
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      &nbsp;
+      <button type="submit" class="btn btn-secondary" (click)="onReset()">
+        New Game
+      </button>
+    </div>
+  </div>
+</div>
+<pre></pre>
+<pre></pre>
+<pre></pre>
