@@ -9,6 +9,8 @@ import { getFrames } from '../state/roll.selector';
 import { AppState } from 'src/app/app.state';
 import { addFrameCount, resetFrameCount } from '../state/framecount.actions';
 import { addTotalScore, resetTotalScore } from '../state/totalscore.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { PopUpComponent } from '../pop-up/pop-up.component';
 
 @Component({
   selector: 'app-game-roll',
@@ -21,17 +23,22 @@ export class GameRollComponent implements OnInit {
   framecount: number | undefined;
   // inputMessage: any;
   submitted = false;
+  totalscore: number | undefined;
   constructor(
     private _formBuilder: FormBuilder,
     private _myService: PinBowlService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    public dialog: MatDialog
   ) {}
 
   formValidationCheck(scoreBoard: FormGroup) {
     const firstroll = scoreBoard.get('firstroll')?.value;
     const secondroll = scoreBoard.get('secondroll')?.value;
     const thirdroll = scoreBoard.get('thirdroll')?.value;
-    if (firstroll !== 10 && !secondroll) {
+    if (
+      firstroll !== 10 &&
+      (secondroll === null || secondroll === undefined || secondroll === '')
+    ) {
       return { secondrollrequired: true };
     }
     if (firstroll + secondroll > 10 && !thirdroll) {
@@ -63,10 +70,14 @@ export class GameRollComponent implements OnInit {
     this._myService.updateBowlingData(JSON.stringify(this.inputScores.posts)); */
 
     this._myService.roll(this.scoreBoard.value.firstroll);
-    this.scoreBoard.value.secondroll && this.scoreBoard.value.secondroll !== ''
+    this.scoreBoard.value.secondroll !== null &&
+    this.scoreBoard.value.secondroll !== undefined &&
+    this.scoreBoard.value.secondroll !== ''
       ? this._myService.roll(this.scoreBoard.value.secondroll)
       : null;
-    this.scoreBoard.value.thirdroll && this.scoreBoard.value.thirdroll !== ''
+    this.scoreBoard.value.thirdroll !== null &&
+    this.scoreBoard.value.thirdroll !== undefined &&
+    this.scoreBoard.value.thirdroll !== ''
       ? this._myService.roll(this.scoreBoard.value.thirdroll)
       : null;
     const value = this._myService.score();
@@ -81,6 +92,26 @@ export class GameRollComponent implements OnInit {
     this.store.dispatch(addTotalScore({ totalscore: value }));
     this.scoreBoard.reset();
     this.submitted = false;
+    if (this.framecount && this.framecount > 10) {
+      this.openDialog();
+    }
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(PopUpComponent, {
+      width: '600px',
+      height: '210px',
+      data: {
+        totalscore: this.totalscore,
+      },
+      backdropClass: 'confirmDialogComponent',
+      hasBackdrop: true,
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data.clicked === 'newgame') {
+        this.onReset();
+      }
+    });
   }
 
   getFrameScore() {
@@ -91,6 +122,9 @@ export class GameRollComponent implements OnInit {
     /** Get data from service compoent using BehaviorSubject */
     // this._myService.bowlingData.subscribe((data) => (this.inputMessage = data));
     this.posts = this.store.select(getFrames);
+    this.store
+      .select('totalscore')
+      .subscribe((data) => (this.totalscore = data.totalscore));
     this.store
       .select('framecount')
       .subscribe((data) => (this.framecount = data.framecount));

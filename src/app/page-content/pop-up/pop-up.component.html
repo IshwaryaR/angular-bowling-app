@@ -1,0 +1,25 @@
+<!-- <p>Your score is {{ totalscore }}</p> -->
+<div class="confirm-container">
+  <h1 mat-dialog-title>Game Over! Well done!</h1>
+  <div mat-dialog-content>
+    <h4>Your total score is {{ totalscore }}</h4>
+  </div>
+
+  <div mat-dialog-actions style="float: right; margin: 20px">
+    <button
+      mat-button
+      class="btn btn-secondary"
+      [mat-dialog-close]="{ clicked: 'newgame' }"
+    >
+      Play New Game
+    </button>
+    &nbsp;
+    <button
+      mat-button
+      [mat-dialog-close]="{ clicked: 'Cancel' }"
+      class="btn btn-secondary"
+    >
+      Cancel
+    </button>
+  </div>
+</div>

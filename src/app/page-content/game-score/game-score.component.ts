@@ -5,7 +5,6 @@ import { AppState } from 'src/app/app.state';
 import { PinBowlService } from 'src/app/pin-bowl.service';
 import { Observable } from 'rxjs';
 import { getFrames } from '../state/roll.selector';
-import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-game-score',
   templateUrl: './game-score.component.html',
@@ -14,11 +13,12 @@ import { MatDialog } from '@angular/material/dialog';
 export class GameScoreComponent implements OnInit {
   posts: Observable<Posts[]> | undefined;
   numbers: any[];
+  framecount: number | undefined;
   // inputMessage: any;
   scoreData: any;
   constructor(
     private _myService: PinBowlService,
-    private store: Store<AppState> // private dialog: MatDialog
+    private store: Store<AppState>
   ) {
     this.numbers = Array(10).fill(0);
   }
@@ -38,5 +38,8 @@ export class GameScoreComponent implements OnInit {
 
     this.posts = this.store.select(getFrames);
     this.scoreData = this._myService.getFrameScore();
+    this.store
+      .select('framecount')
+      .subscribe((data) => (this.framecount = data.framecount));
   }
 }

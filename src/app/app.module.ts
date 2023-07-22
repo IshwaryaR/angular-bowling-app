@@ -16,6 +16,7 @@ import { rollReducer } from './page-content/state/roll.reducer';
 import { MatDialogModule } from '@angular/material/dialog';
 import { counterReducer } from './page-content/state/framecount.reducer';
 import { scoreReducer } from './page-content/state/totalscore.reducer';
+import { PopUpComponent } from './page-content/pop-up/pop-up.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,7 @@ import { scoreReducer } from './page-content/state/totalscore.reducer';
     FooterComponent,
     GameRollComponent,
     GameScoreComponent,
+    PopUpComponent,
   ],
   imports: [
     BrowserModule,

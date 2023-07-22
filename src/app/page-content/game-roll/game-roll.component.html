@@ -79,10 +79,11 @@
         <div
           class="form-group"
           *ngIf="
-            (posts | async)?.length == 9 &&
+            framecount &&
+            framecount >= 9 &&
             (scoreBoard.controls['firstroll'].value == 10 ||
               scoreBoard.controls['firstroll'].value +
-                scoreBoard.controls['secondroll'].value ==
+                scoreBoard.controls['secondroll'].value >=
                 10)
           "
         >
