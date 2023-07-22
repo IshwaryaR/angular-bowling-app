@@ -8,11 +8,20 @@ describe('NavBarComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NavBarComponent]
+      declarations: [NavBarComponent],
     });
     fixture = TestBed.createComponent(NavBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it('should render header', () => {
+    const fixture = TestBed.createComponent(NavBarComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.navbar span')?.textContent).toContain(
+      'Ten Pin Bowling Score Calculator!'
+    );
   });
 
   it('should create', () => {

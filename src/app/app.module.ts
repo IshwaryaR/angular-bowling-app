@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PinbowlComponent } from './pinbowl/pinbowl.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { PageContentComponent } from './page-content/page-content.component';
@@ -20,7 +19,6 @@ import { PopUpComponent } from './page-content/pop-up/pop-up.component';
 @NgModule({
   declarations: [
     AppComponent,
-    PinbowlComponent,
     NavBarComponent,
     PageContentComponent,
     FooterComponent,
