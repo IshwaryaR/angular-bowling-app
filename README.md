@@ -20,7 +20,7 @@ Package Manager: npm 9.5.0
 
 * Created this application with latest Angular.
 * Styling done in a pre-processor sass.
-* Tested in the given browsers (Chrome, FF, Safari) 
+* Checked whether the application is responsive and works good in the browsers (Chrome, FF, Safari)
 
 ## Development server
 
