@@ -1,5 +1,7 @@
 # Ten Pin Bowling Game Calculator
 
+# Description 
+
 This project was generated with 
 
 * @angular/cli                    16.1.4
@@ -8,16 +10,35 @@ This project was generated with
 * typescript                      5.1.6
 
 This calculates the score during a game of ten pin bowling.
+So first we need latest Angular to run this application. 
+
+Angular CLI: 16.1.4
+Node: 18.13.0
+Package Manager: npm 9.5.0
+
+## Prerequisities 
+
+* Created this application with latest Angular.
+* Styling done in a pre-processor sass.
+* Tested in the given browsers (Chrome, FF, Safari) 
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+* Run npm i @angular/cli
+
+* npm i 
+
+* Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
 
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Have used ngrx for state management
+## Have used ngrx for state management to store the following 
+
+* Frame Count
+* Total Score
+* Each roll with respect to the frame and its score
 
 ## Game Rules
 
@@ -35,15 +56,22 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
   
 * The tenth frame may be composed of up to three rolls: the bonus roll(s) following a strike or spare in the tenth (sometimes referred to as the eleventh and twelfth frames) are fill ball(s) used only to calculate the score of the mark rolled in the tenth. 
 
-Test case written for the following possible scenarios
+## Test case written for the following possible scenarios
 
- * -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||          = 0
+ * -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||          = 0 (all null)
 
- * 1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1   ||        = 20
+ * 1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1  ||  1/1   ||        = 20 (all 1)
 
- * 10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||   = 300
+ * 10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||  10  ||   = 300 (all strike)
 
- * 4/6  ||  3/2  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||         = (10 + 3) + 5 = 18 (NULL ROLLS 16 )
+ * 4/6  ||  3/2  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||         = (10 + 3) + 5 = 18 (NULL ROLLS 16 )(spare)
 
- * 10  ||  3/2  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||          = (10 + 3 + 2)+ (3 + 2) = 20 (NULL ROLLS 17 )
+ * 10  ||  3/2  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||  -/-  ||          = (10 + 3 + 2)+ (3 + 2) = 20 (NULL ROLLS 17 )(strike)
+
+## Validations added for the following scenarios
+
+* Frame count should not exceed 10
+* If it is a strike then roll 2 should not be given
+* For 10th frame roll 3 will be given if it is a strike / spare
+
 
