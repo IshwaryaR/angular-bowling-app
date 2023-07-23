@@ -98,6 +98,17 @@
             placeholder="Enter Third Roll"
             value="0"
           />
+          <div
+            *ngIf="submitted && scoreBoard.controls['thirdroll'].errors"
+            class="text-danger"
+          >
+            <div *ngIf="scoreBoard.controls?.['thirdroll']?.errors?.['min']">
+              Second Roll must be greater than 0
+            </div>
+            <div *ngIf="scoreBoard.controls?.['thirdroll']?.errors?.['max']">
+              Second Roll must be less than 10
+            </div>
+          </div>
         </div>
         <pre></pre>
         <div
@@ -122,16 +133,24 @@
           class="alert alert-success"
           role="alert"
           *ngIf="
-            scoreBoard.controls['firstroll'].value === 10 ||
+            scoreBoard.controls['firstroll'].value == 10 ||
             scoreBoard.controls['firstroll'].value +
               scoreBoard.controls['secondroll'].value ==
-              10
+              10 ||
+            ((frames | async)?.length === 9 &&
+              scoreBoard.controls['firstroll'].value +
+                scoreBoard.controls['secondroll'].value >
+                10)
           "
         >
           <p>
             Well done! Its a
             {{
-              scoreBoard.controls["firstroll"].value === 10
+              scoreBoard.controls["firstroll"].value === 10 ||
+              (scoreBoard.controls["firstroll"].value +
+                scoreBoard.controls["secondroll"].value >
+                10 &&
+                (frames | async)?.length === 9)
                 ? "strike!"
                 : "spare!"
             }}

@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class PinGameService {
   pinsArray: number[];
@@ -34,10 +34,7 @@ export class PinGameService {
         const currentRollScore = this.pinsArray[rollIndex];
         const currentFrameScore =
           currentRollScore + this.pinsArray[rollIndex + 1];
-        if (
-          currentRollScore == 10 ||
-          (frameIndex == 9 && currentFrameScore >= 10)
-        ) {
+        if (currentRollScore == 10) {
           // strike
           totalScore +=
             currentRollScore +
