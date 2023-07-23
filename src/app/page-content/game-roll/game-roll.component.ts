@@ -68,21 +68,18 @@ export class GameRollComponent implements OnInit {
     };
 
     this.store.dispatch(addFrameRoll({ frame }));
-    this.store.dispatch(addFrameCount());
     this.store.dispatch(addTotalScore({ totalscore: currentScore }));
-
+    this.framecount && this.framecount === 10
+      ? this.openDialog()
+      : this.store.dispatch(addFrameCount());
     this.scoreBoard.reset();
     this.submitted = false;
-    if (this.framecount && this.framecount > 10) {
-      //open the popup on last frame
-      this.openDialog();
-    }
   }
 
   openDialog() {
     const dialogRef = this.dialog.open(PopUpComponent, {
-      width: '600px',
-      height: '210px',
+      width: '400px',
+      height: '180px',
       data: {
         totalscore: this.totalscore,
       },
