@@ -1,15 +1,15 @@
-export interface Posts {
+export interface Frames {
   id?: string;
   firstroll: number;
   secondroll: number;
   thirdroll?: number;
   score: number;
 }
-export interface PostsState {
-  posts: Posts[];
+export interface GameState {
+  frames: Frames[];
 }
 
-export interface FrameState {
+export interface FrameCountState {
   framecount: number;
 }
 

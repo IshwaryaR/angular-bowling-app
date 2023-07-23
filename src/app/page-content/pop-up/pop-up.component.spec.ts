@@ -30,7 +30,7 @@ describe('PopUpComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(
-      compiled.querySelector('.confirm-container h1')?.textContent
+      compiled.querySelector('.confirm-container h3')?.textContent
     ).toContain('Game Over! Well done!');
   });
 

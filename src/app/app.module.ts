@@ -8,10 +8,10 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { PageContentComponent } from './page-content/page-content.component';
 import { FooterComponent } from './footer/footer.component';
 import { GameRollComponent } from './page-content/game-roll/game-roll.component';
-import { PinBowlService } from './pin-bowl.service';
+import { PinGameService } from './service/pin-game.service';
 import { GameScoreComponent } from './page-content/game-score/game-score.component';
 import { StoreModule } from '@ngrx/store';
-import { rollReducer } from './page-content/state/roll.reducer';
+import { gameReducer } from './page-content/state/game.reducer';
 import { MatDialogModule } from '@angular/material/dialog';
 import { counterReducer } from './page-content/state/framecount.reducer';
 import { scoreReducer } from './page-content/state/totalscore.reducer';
@@ -32,13 +32,13 @@ import { PopUpComponent } from './page-content/pop-up/pop-up.component';
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot({
-      posts: rollReducer,
+      frames: gameReducer,
       framecount: counterReducer,
       totalscore: scoreReducer,
     }),
     MatDialogModule,
   ],
-  providers: [PinBowlService],
+  providers: [PinGameService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,7 +1,11 @@
-import { FrameState, PostsState, ScoreState } from 'src/app/models/frame.model';
+import {
+  FrameCountState,
+  GameState,
+  ScoreState,
+} from 'src/app/models/game.model';
 
 export interface AppState {
-  posts: PostsState;
-  framecount: FrameState;
+  frames: GameState;
+  framecount: FrameCountState;
   totalscore: ScoreState;
 }

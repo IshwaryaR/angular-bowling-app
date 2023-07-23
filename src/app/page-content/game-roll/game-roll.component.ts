@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Posts } from 'src/app/models/frame.model';
-import { PinBowlService } from 'src/app/pin-bowl.service';
-import { addFrameRoll, resetFrameRoll } from '../state/roll.actions';
+import { Frames } from 'src/app/models/game.model';
+import { PinGameService } from 'src/app/service/pin-game.service';
+import { addFrameRoll, resetFrameRoll } from '../state/game.actions';
 import { Observable } from 'rxjs';
-import { getFrames } from '../state/roll.selector';
+import { getFrames } from '../state/game.selector';
 import { AppState } from 'src/app/app.state';
 import { addFrameCount, resetFrameCount } from '../state/framecount.actions';
 import { addTotalScore, resetTotalScore } from '../state/totalscore.actions';
@@ -19,7 +19,7 @@ import { PopUpComponent } from '../pop-up/pop-up.component';
 })
 export class GameRollComponent implements OnInit {
   /** Declarations */
-  posts: Observable<Posts[]> | undefined;
+  frames: Observable<Frames[]> | undefined;
   scoreBoard!: FormGroup;
   framecount: number | undefined;
   submitted = false;
@@ -27,7 +27,7 @@ export class GameRollComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _myService: PinBowlService,
+    private _myService: PinGameService,
     private store: Store<AppState>,
     public dialog: MatDialog
   ) {}
@@ -60,7 +60,7 @@ export class GameRollComponent implements OnInit {
     this.rollAction();
 
     const currentScore = this._myService.score();
-    const frame: Posts = {
+    const frame: Frames = {
       firstroll: this.scoreBoard.value.firstroll,
       secondroll: this.scoreBoard.value.secondroll,
       thirdroll: this.scoreBoard.value.thirdroll,
@@ -110,7 +110,7 @@ export class GameRollComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.posts = this.store.select(getFrames);
+    this.frames = this.store.select(getFrames);
     this.store
       .select('totalscore')
       .subscribe((data) => (this.totalscore = data.totalscore));

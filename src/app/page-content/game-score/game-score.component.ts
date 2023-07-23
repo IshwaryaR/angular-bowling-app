@@ -1,17 +1,16 @@
-import { Posts } from 'src/app/models/frame.model';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Frames } from 'src/app/models/game.model';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.state';
-import { PinBowlService } from 'src/app/pin-bowl.service';
 import { Observable } from 'rxjs';
-import { getFrames } from '../state/roll.selector';
+import { getFrames } from '../state/game.selector';
 @Component({
   selector: 'app-game-score',
   templateUrl: './game-score.component.html',
   styleUrls: ['./game-score.component.sass'],
 })
 export class GameScoreComponent implements OnInit {
-  posts: Observable<Posts[]> | undefined;
+  frames: Observable<Frames[]> | undefined;
   numbers: number[];
   framecount: number | undefined;
   constructor(private store: Store<AppState>) {
@@ -19,7 +18,7 @@ export class GameScoreComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.posts = this.store.select(getFrames);
+    this.frames = this.store.select(getFrames);
     this.store
       .select('framecount')
       .subscribe((data) => (this.framecount = data.framecount));

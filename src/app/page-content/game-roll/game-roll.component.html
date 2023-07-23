@@ -37,7 +37,7 @@
           <fieldset
             [disabled]="
               scoreBoard.controls['firstroll'].value == 10 &&
-              (posts | async)?.length !== 9
+              (frames | async)?.length !== 9
             "
           >
             <label for="secondroll">Roll 2</label><br />
@@ -111,7 +111,7 @@
         <button
           type="submit"
           class="btn btn-primary"
-          [disabled]="(posts | async)?.length === 10"
+          [disabled]="(frames | async)?.length === 10"
         >
           Submit
         </button>

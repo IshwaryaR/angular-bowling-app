@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class PinBowlService {
+export class PinGameService {
   totalScore: number;
   rollsArray: number[];
   frameTotal: number[];
