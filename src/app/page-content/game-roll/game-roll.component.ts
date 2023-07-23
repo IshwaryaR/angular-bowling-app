@@ -32,6 +32,7 @@ export class GameRollComponent implements OnInit {
     public dialog: MatDialog
   ) {}
 
+  /**  Action when user clicks reset button   */
   onReset() {
     this.store.dispatch(resetFrameRoll());
     this.store.dispatch(resetFrameCount());
@@ -40,35 +41,38 @@ export class GameRollComponent implements OnInit {
     this.submitted = false;
   }
 
+  /** Function which runs to push the number of pins on each frame*/
   rollAction() {
     const scoreBoardValues = this.scoreBoard.value;
-    this._myService.roll(scoreBoardValues.firstroll);
+    this._myService.bowling(scoreBoardValues.firstroll);
     scoreBoardValues.secondroll !== null &&
     scoreBoardValues.secondroll !== undefined &&
     scoreBoardValues.secondroll !== ''
-      ? this._myService.roll(scoreBoardValues.secondroll)
+      ? this._myService.bowling(scoreBoardValues.secondroll)
       : null;
     scoreBoardValues.thirdroll !== null &&
     scoreBoardValues.thirdroll !== undefined &&
     scoreBoardValues.thirdroll !== ''
-      ? this._myService.roll(scoreBoardValues.thirdroll)
+      ? this._myService.bowling(scoreBoardValues.thirdroll)
       : null;
   }
+
+  /**  Function which runs when user submits the Form */
   formSubmit() {
     this.submitted = true;
     if (this.scoreBoard.invalid) return;
     this.rollAction();
 
-    const currentScore = this._myService.score();
+    const { score } = this._myService.calculate();
     const frame: Frames = {
       firstroll: this.scoreBoard.value.firstroll,
       secondroll: this.scoreBoard.value.secondroll,
       thirdroll: this.scoreBoard.value.thirdroll,
-      score: currentScore,
+      score: score,
     };
 
     this.store.dispatch(addFrameRoll({ frame }));
-    this.store.dispatch(addTotalScore({ totalscore: currentScore }));
+    this.store.dispatch(addTotalScore({ totalscore: score }));
     this.framecount && this.framecount === 10
       ? this.openDialog()
       : this.store.dispatch(addFrameCount());
@@ -76,6 +80,7 @@ export class GameRollComponent implements OnInit {
     this.submitted = false;
   }
 
+  /**  Pop up function which runs when the game is over */
   openDialog() {
     const dialogRef = this.dialog.open(PopUpComponent, {
       width: '400px',
@@ -92,7 +97,7 @@ export class GameRollComponent implements OnInit {
       }
     });
   }
-
+  /** Custom validation function to validate the form */
   formValidationCheck(scoreBoard: FormGroup) {
     const firstroll = scoreBoard.get('firstroll')?.value;
     const secondroll = scoreBoard.get('secondroll')?.value;
