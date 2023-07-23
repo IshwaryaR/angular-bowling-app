@@ -99,7 +99,6 @@
             value="0"
           />
         </div>
-
         <pre></pre>
         <div
           *ngIf="submitted && scoreBoard.errors?.['range'] && !scoreBoard.controls['firstroll'].errors && !scoreBoard.controls['secondroll'].errors"
@@ -107,7 +106,6 @@
         >
           Total should be between 0 and 10
         </div>
-
         <button
           type="submit"
           class="btn btn-primary"
@@ -119,6 +117,26 @@
         <button type="button" class="btn btn-secondary" (click)="onReset()">
           Reset Game
         </button>
+        <pre></pre>
+        <div
+          class="alert alert-success"
+          role="alert"
+          *ngIf="
+            scoreBoard.controls['firstroll'].value === 10 ||
+            scoreBoard.controls['firstroll'].value +
+              scoreBoard.controls['secondroll'].value ==
+              10
+          "
+        >
+          <p>
+            Well done! Its a
+            {{
+              scoreBoard.controls["firstroll"].value === 10
+                ? "strike!"
+                : "spare!"
+            }}
+          </p>
+        </div>
       </form>
     </div>
   </div>
