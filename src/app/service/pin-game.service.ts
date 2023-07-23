@@ -14,6 +14,11 @@ export class PinGameService {
     this.pinsArray.push(pins);
   }
 
+  /**  Function when user resets the reset button */
+  resetGame() {
+    this.pinsArray = [];
+  }
+
   /**  function to calculate the current score * @returns total score   */
   calculate() {
     if (this.pinsArray.length === 0) {
@@ -29,7 +34,10 @@ export class PinGameService {
         const currentRollScore = this.pinsArray[rollIndex];
         const currentFrameScore =
           currentRollScore + this.pinsArray[rollIndex + 1];
-        if (currentRollScore == 10) {
+        if (
+          currentRollScore == 10 ||
+          (frameIndex == 9 && currentFrameScore >= 10)
+        ) {
           // strike
           totalScore +=
             currentRollScore +

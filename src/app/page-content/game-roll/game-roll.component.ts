@@ -37,6 +37,7 @@ export class GameRollComponent implements OnInit {
     this.store.dispatch(resetFrameRoll());
     this.store.dispatch(resetFrameCount());
     this.store.dispatch(resetTotalScore());
+    this._myService.resetGame();
     this.scoreBoard.reset();
     this.submitted = false;
   }
